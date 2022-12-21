@@ -3,7 +3,7 @@
 #define TERMINAL "st"
 
 /* appearance */
-static const unsigned int borderpx  = 3;        /* border pixel of windows */
+static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const unsigned int gappih    = 20;       /* horiz inner gap between windows */
 static const unsigned int gappiv    = 10;       /* vert inner gap between windows */
@@ -13,18 +13,21 @@ static const int swallowfloating    = 1; 	/*1 means swallow floating windows by 
 static       int smartgaps          = 1;        /* 1 means no outer gap when there is only one window */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "monospace:size=10" };
-static const char dmenufont[]       = "monospace:size=10";
-static const char col_gray1[]       = "#222222";
-static const char col_gray2[]       = "#444444";
-static const char col_gray3[]       = "#bbbbbb";
-static const char col_gray4[]       = "#eeeeee";
-static const char col_cyan[]        = "#005577";
+static char font[]            = "monospace:size=10";
+static char dmenufont[]       = "monospace:size=10";
+static const char *fonts[]          = { font };
+static const char col_gray1[]       = "#1d2021";
+static const char col_gray2[]       = "#ebdbb2";
+static const char col_gray3[]       = "#928374";
+static const char col_gray4[]       = "#8ec07c";
+static const char col_cyan[]        = "#fabd2f";	//selected and top bar
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
-	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
-};
+	//[SchemeNorm] = { col_gray3, col_gray1, col_gray1 },
+	//[SchemeSel]  = { col_gray1, col_gray3, col_gray3  },
+	[SchemeNorm] = { col_gray3, col_gray1, col_gray1 },
+	[SchemeSel]  = { col_gray4, col_gray1, col_gray3  },
+ };
 
 /* tagging */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
@@ -83,7 +86,8 @@ static const Layout layouts[] = {
 #define STATUSBAR "dwmblocks"
 
 /* commands */
-static const char *dmenucmd[] = { "dmenu_run", "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
+static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { TERMINAL, NULL };
 
 #include <X11/XF86keysym.h>
@@ -92,7 +96,7 @@ static const Key keys[] = {
 	/* modifier                     key        function        argument */
 
 	/**/
-	/*Window manager*/
+	/*Graphical Environment*/
 	/**/
 	TAGKEYS(                        XK_1,                     	0)
 	TAGKEYS(                        XK_2,                     	1)
@@ -136,8 +140,13 @@ static const Key keys[] = {
 	{ MODKEY,			XK_h,		setmfact,	{.f = -0.05} },
 	{ MODKEY,			XK_l,		setmfact,      	{.f = +0.05} },
 
+	{ MODKEY,			XK_d,		spawn,      	SHCMD("dmenurun") },
+	{ MODKEY|ShiftMask,		XK_semicolon,	spawn,      	SHCMD("dmenuunicode") },
+	{ MODKEY,			XK_F1,		spawn,      	SHCMD("dmenumount") },
+	{ MODKEY|ShiftMask,		XK_F1,		spawn,      	SHCMD("dmenuumount") },
+
 	/**/
-	/*Media*/
+	/*Media and System*/
 	/**/
 	{ 0, XF86XK_AudioMute,		spawn,		SHCMD("amixer -c 2 set 'Master' toggle; kill -44 $(pidof dwmblocks)") },
 	{ 0, XF86XK_AudioRaiseVolume,	spawn,		SHCMD("amixer -c 2 set 'Master' 5%+; kill -44 $(pidof dwmblocks)") },
@@ -161,6 +170,9 @@ static const Key keys[] = {
 
 	{ 0, 	  XK_Print,	spawn,	SHCMD("maim $HOME/media/pictures/screenshots/screenshot_$(date '+%y%m%d_%H%M_%S').png") },
 	{ MODKEY, XK_Print,	spawn,	SHCMD("maim -s $HOME/media/pictures/screenshots/screenshot_$(date '+%y%m%d_%H%M_%S').png") },
+
+	{ ControlMask,			XK_y,			spawn,		SHCMD("xclip -o | xclip -sel clip") },
+	//{ ControlMask,			XK_p,			spawn,		SHCMD("xdotool type '$(xclip -o -sel clip)'") },
 
 	/**/
 	/*Application*/
