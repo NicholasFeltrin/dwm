@@ -149,9 +149,17 @@ static const Key keys[] = {
 	/*Media and System*/
 	/**/
 	{ 0, XF86XK_AudioMute,		spawn,		SHCMD("amixer -c 2 set 'Master' toggle; kill -44 $(pidof dwmblocks)") },
+	{ 0, XK_F9,           		spawn,		SHCMD("amixer -c 2 set 'Master' toggle; kill -44 $(pidof dwmblocks)") },
 	{ 0, XF86XK_AudioRaiseVolume,	spawn,		SHCMD("amixer -c 2 set 'Master' 5%+; kill -44 $(pidof dwmblocks)") },
+	{ 0, XK_F11,	spawn,		SHCMD("amixer -c 2 set 'Master' 5%+; kill -44 $(pidof dwmblocks)") },
 	{ 0, XF86XK_AudioLowerVolume,	spawn,		SHCMD("amixer -c 2 set 'Master' 5%-; kill -44 $(pidof dwmblocks)") },
+	{ 0, XK_F10,	spawn,		SHCMD("amixer -c 2 set 'Master' 5%-; kill -44 $(pidof dwmblocks)") },
 
+	{ MODKEY, XF86XK_AudioRaiseVolume,	spawn,		SHCMD("mpc volume +5") },
+	{ MODKEY, XK_F11,	spawn,		SHCMD("mpc volume +5") },
+	{ MODKEY, XF86XK_AudioLowerVolume,	spawn,		SHCMD("mpc volume -5") },
+	{ MODKEY, XK_F10,	spawn,		SHCMD("mpc volume -5") },
+  
 	{ 0, XF86XK_AudioPrev,		spawn,		SHCMD("mpc prev") },
 	{ MODKEY, XK_F5,		spawn,		SHCMD("mpc prev") },
 	{ 0, XF86XK_AudioNext,		spawn,		SHCMD("mpc next") },
