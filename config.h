@@ -41,7 +41,8 @@ static const Rule rules[] = {
 	{ "Gimp",    NULL,     NULL,           0,         1,          0,           0,        -1 },
 	{ "Firefox", NULL,     NULL,           1 << 8,    0,          0,          -1,        -1 },
 	{ "St",      NULL,     NULL,           0,         0,          1,           0,        -1 },
-	{ NULL,      NULL,     "Event Tester", 0,         0,          0,           1,        -1 }, /* xev */
+	{ "",      NULL,     "Event Tester", 0,         0,          0,           1,        -1 }, /* xev */
+	{ "",      NULL,     "flutterDev", 0,         0,          0,           1,        -1 }, /* xev */
 };
 
 /* layout(s) */
@@ -148,8 +149,8 @@ static const Key keys[] = {
 	/**/
 	/*Media and System*/
 	/**/
-	{ 0, XF86XK_AudioMute,		spawn,		SHCMD("amixer -c 2 set 'Master' toggle; kill -44 $(pidof dwmblocks)") },
-	{ 0, XK_F9,           		spawn,		SHCMD("amixer -c 2 set 'Master' toggle; kill -44 $(pidof dwmblocks)") },
+	{ 0, XF86XK_AudioMute,		spawn,		SHCMD("amixer -c 2 set 'Master' toggle; amixer -c 2 set 'Headphone' unmute; kill -44 $(pidof dwmblocks)") },
+	{ 0, XK_F9,           		spawn,		SHCMD("amixer -c 2 set 'Master' toggle; amixer -c 2 set 'Headphone' unmute; kill -44 $(pidof dwmblocks)") },
 	{ 0, XF86XK_AudioRaiseVolume,	spawn,		SHCMD("amixer -c 2 set 'Master' 5%+; kill -44 $(pidof dwmblocks)") },
 	{ 0, XK_F11,	spawn,		SHCMD("amixer -c 2 set 'Master' 5%+; kill -44 $(pidof dwmblocks)") },
 	{ 0, XF86XK_AudioLowerVolume,	spawn,		SHCMD("amixer -c 2 set 'Master' 5%-; kill -44 $(pidof dwmblocks)") },
@@ -178,6 +179,9 @@ static const Key keys[] = {
 
 	{ 0, 	  XK_Print,	spawn,	SHCMD("maim $HOME/media/pictures/screenshots/screenshot_$(date '+%y%m%d_%H%M_%S').png") },
 	{ MODKEY, XK_Print,	spawn,	SHCMD("maim -s $HOME/media/pictures/screenshots/screenshot_$(date '+%y%m%d_%H%M_%S').png") },
+
+	{ 0, 	  XK_Home,	spawn,	SHCMD("maim $HOME/media/pictures/screenshots/screenshot_$(date '+%y%m%d_%H%M_%S').png") },
+	{ MODKEY, XK_Home,	spawn,	SHCMD("maim -s $HOME/media/pictures/screenshots/screenshot_$(date '+%y%m%d_%H%M_%S').png") },
 
 	{ ControlMask,			XK_y,			spawn,		SHCMD("xclip -o | xclip -sel clip") },
 	//{ ControlMask,			XK_p,			spawn,		SHCMD("xdotool type '$(xclip -o -sel clip)'") },
